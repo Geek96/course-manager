@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.1
+
+Rewrote the README (both languages) and trimmed `FRAMEWORK.md`: the
+architecture explanation used to live only in FRAMEWORK.md and read like
+a spec, not something a student would actually want to read. README now
+carries a plain-language "What this actually is" section explaining the
+whole chain and each piece's job in one paragraph each, with the
+Evidence/Content/Driver-Sink terminology moved into parentheticals instead
+of being the primary language. FRAMEWORK.md is now just the technical
+contract reference (roughly half its previous length) and points back to
+the README for the human explanation instead of repeating it. No behavior
+change.
+
 ## 0.3.0
 
 Added `FRAMEWORK.md`: names this ecosystem **CourseOS** and formalizes

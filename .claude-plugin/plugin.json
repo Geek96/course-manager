@@ -1,6 +1,6 @@
 {
   "name": "course-manager",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Deadline-aware synthesis across a course's Canvas evidence and (optionally) its textbook coverage — assignment overview, announcement timeline, every time-sensitive item (structured due/exam dates and dates only ever mentioned in prose), a review plan, and optional Agent-original practice content — plus a structured hand-off to daily-planning tools. Reads canvas-manager and textbook-cracking output; writes only wiki/综合/.",
   "author": {
     "name": "Geek96",

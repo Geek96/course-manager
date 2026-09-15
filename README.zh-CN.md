@@ -1,17 +1,17 @@
 <p align="center">
   <img src="https://img.shields.io/badge/AI_Agent-Skill-7C3AED?style=for-the-badge" alt="AI Agent Skill"/>
-  <img src="https://img.shields.io/badge/version-0.3.0-10B981?style=for-the-badge" alt="Version 0.3.0"/>
+  <img src="https://img.shields.io/badge/version-0.3.1-10B981?style=for-the-badge" alt="Version 0.3.1"/>
   <img src="https://img.shields.io/github/license/Geek96/course-manager?style=for-the-badge&color=6B7280" alt="MIT License"/>
 </p>
 
 <h1 align="center">🗓️ course-manager</h1>
 
 <p align="center">
-  <strong>基于截止日期的综合汇总——跨课程的 Canvas 证据，以及（可选）教材覆盖情况</strong>
+  <strong>把你 Canvas 里零散的截止日期和教材进度，汇总成一页你真的会去看的东西</strong>
   <br/>
-  <code>Evidence Driver + Content Driver → wiki/综合/ → Planning Sink</code>
+  <code>canvas-manager + textbook-cracking → 这门课的"该干嘛"清单 → PlanVault</code>
   <br/><br/>
-  <strong>CourseOS</strong> 的核心——见 <a href="FRAMEWORK.md">FRAMEWORK.md</a>
+  串起整条链路的枢纽——技术细节见 <a href="FRAMEWORK.md">FRAMEWORK.md</a>
 </p>
 
 <p align="center">
@@ -20,17 +20,18 @@
 
 ---
 
-## 🧱 CourseOS
+## 这东西到底是干嘛的
 
-这个仓库是 CourseOS 的**核心**——负责定义接口契约、产出学生真正会读的东西的那一部分。它依赖的每一样东西都是可替换的**组件（component）**，而不是绑定死的固定工具：
+你的课程信息分散在三个地方：Canvas（作业、公告）、教材 PDF、还有你用来规划每周安排的工具。没人会每天把这三个地方都打开一遍去拼时间线。这套工具链就是帮你把这件事自动做掉——最后你拿到的是一页"这周到底要干嘛"，而不是五个浏览器标签页。
 
-| 角色 | 是否必需？ | 当前实现 |
-|------|-----------|---------------------------|
-| Evidence Driver（证据驱动） | 是——没有它什么都跑不起来 | [canvas-manager](https://github.com/Geek96/canvas-manager) / canvas-manager-lite |
-| Content Driver（内容驱动） | 可选 | [textbook-cracking](https://github.com/Geek96/textbook-cracking) |
-| Planning Sink（规划落点） | 可选 | PlanVault |
+**course-manager（也就是这个仓库）**是把这几块拼起来的那个——它不会自己去连 Canvas，也不会自己去读教材，它读的是另外两个工具已经存进你 Obsidian vault 里的东西，然后写出"该干嘛"这份笔记。
 
-任何能产出/消费某个角色所定义契约的工具，都可以直接替换掉当前占据该角色的实现——course-manager 依赖的是**契约**，从不依赖某个具体工具的名字。完整的角色定义和如何自己搭一个替代组件，见 [FRAMEWORK.md](FRAMEWORK.md)。
+- **canvas-manager** 把你 Canvas 上的课程（作业、公告）搬进 vault，存成普通文件。这个必须装——没有它 course-manager 手里没东西可整理。（专业说法叫 "Evidence Driver"）
+- **textbook-cracking** 把教材 PDF 拆解成真正有用的章节笔记。可选——只有你想让复习计划和练习题真的扣着课本内容来，才需要它。（专业说法叫 "Content Driver"）
+- **course-manager**（这个仓库）读上面两个的产出，写出"这周截止日期"这类笔记，还能按需生成练习题。
+- **PlanVault** 是另一个做每日规划的工具，能接过 course-manager 的输出变成真正的日程安排。可选，不属于这套工具链自己。
+
+上面这几个角色其实都是"接口"而不是绑死的具体工具——哪天你发现了更好用的替代品，直接换掉就行，不会牵一发动全身，因为 course-manager 只认数据的形状，不认是谁产出的。每个角色具体要求什么格式，写在 [FRAMEWORK.md](FRAMEWORK.md) 里，只有真想自己动手做个替代品的时候才需要看。
 
 ---
 

@@ -1,17 +1,17 @@
 <p align="center">
   <img src="https://img.shields.io/badge/AI_Agent-Skill-7C3AED?style=for-the-badge" alt="AI Agent Skill"/>
-  <img src="https://img.shields.io/badge/version-0.3.0-10B981?style=for-the-badge" alt="Version 0.3.0"/>
+  <img src="https://img.shields.io/badge/version-0.3.1-10B981?style=for-the-badge" alt="Version 0.3.1"/>
   <img src="https://img.shields.io/github/license/Geek96/course-manager?style=for-the-badge&color=6B7280" alt="MIT License"/>
 </p>
 
 <h1 align="center">🗓️ course-manager</h1>
 
 <p align="center">
-  <strong>Deadline-aware synthesis across a course's Canvas evidence and (optionally) its textbook coverage</strong>
+  <strong>Turns your scattered Canvas due dates and textbook progress into one page you'll actually check</strong>
   <br/>
-  <code>Evidence Driver + Content Driver → wiki/综合/ → Planning Sink</code>
+  <code>canvas-manager + textbook-cracking → your course's "what's due" page → PlanVault</code>
   <br/><br/>
-  The core of <strong>CourseOS</strong> — see <a href="FRAMEWORK.md">FRAMEWORK.md</a>
+  The hub that ties it together — see <a href="FRAMEWORK.md">FRAMEWORK.md</a> for the technical contracts
 </p>
 
 <p align="center">
@@ -20,23 +20,40 @@
 
 ---
 
-## 🧱 CourseOS
+## What this actually is
 
-This repo is CourseOS's **core** — the piece that owns the interface
-contracts and produces the thing a student actually reads. Everything it
-depends on is a swappable **component**, not a fixed tool:
+Your course stuff lives in three different places: Canvas (assignments,
+announcements), a textbook PDF, and whatever you use to plan your week.
+Nobody wants to check all three every day just to find out what's due.
+This project is a small chain of tools that does that checking for you, so
+you get one page that says "here's what actually needs your attention"
+instead of five browser tabs.
 
-| Role | Required? | Current implementation(s) |
-|------|-----------|---------------------------|
-| Evidence Driver | Yes — nothing works without one | [canvas-manager](https://github.com/Geek96/canvas-manager) / canvas-manager-lite |
-| Content Driver | Optional | [textbook-cracking](https://github.com/Geek96/textbook-cracking) |
-| Planning Sink | Optional | PlanVault |
+**course-manager (this repo)** is the piece that ties it together. It
+doesn't talk to Canvas or read your textbook itself — it reads what the
+other two tools already saved into your Obsidian vault, and writes the
+"what's due" page.
 
-Any tool that produces/consumes a role's documented contract is a drop-in
-replacement for whatever currently fills it — course-manager depends on
-the contract, never on a specific tool by name. See
-[FRAMEWORK.md](FRAMEWORK.md) for the full role definitions and how to
-build a replacement component.
+- **canvas-manager** pulls your Canvas courses into plain files in your
+  vault. You need this one — there's nothing for course-manager to work
+  with otherwise. *(Technically: the "Evidence Driver.")*
+- **textbook-cracking** turns a textbook PDF into real chapter notes.
+  Optional — only useful if you want review plans and practice problems
+  grounded in the actual book instead of a vague guess. *(Technically: the
+  "Content Driver.")*
+- **course-manager**, this repo, reads both of the above and writes the
+  actual "what's due, what matters this week" notes, plus practice
+  problems on request.
+- **PlanVault**, a separate day-planning tool, can pick up
+  course-manager's output and turn it into an actual schedule. Optional,
+  and not part of this project.
+
+Each of these is really a *role*, not a specific tool — if you find
+something better that does the same job, you can swap it in and nothing
+else breaks, because course-manager only cares about the shape of the
+data, not which tool produced it. The exact contract for each role — file
+layout, schemas, all of it — lives in [FRAMEWORK.md](FRAMEWORK.md), worth
+reading only if you're actually building a replacement.
 
 ---
 
