@@ -33,10 +33,35 @@ produces.
 
 ## Prerequisites
 
-At least one course directory already synced by canvas-manager (full or
-Lite — see `references/canvas-manager-integration.md` for the required
-layout). If nothing's been synced yet, tell the user to run canvas-manager
-first rather than trying to work around missing evidence.
+**Hard requirement, check this first, every time this skill is invoked
+fresh**: at least one course directory already synced by `canvas-manager`
+(full or Lite — see `references/canvas-manager-integration.md` for the
+required layout). This isn't optional — course-manager has nothing to read
+without it, and "try to work around missing evidence" is not a fallback.
+If no course has been synced yet, recommend installing and running
+`canvas-manager` first, don't proceed:
+
+```bash
+npx skills add Geek96/canvas-manager
+```
+
+(Which variant — Lite or full — is canvas-manager's own decision to walk
+the user through, not this skill's; see its README if asked.)
+
+**Optional, worth surfacing to a first-time user up front** so they know
+the rest of the ecosystem exists, even though neither is required for
+course-manager's core deadline-aware views:
+
+- [`textbook-cracking`](https://github.com/Geek96/textbook-cracking) —
+  unlocks textbook-aware review plans and the optional Agent-original
+  practice content (see "Practice content generation" below).
+  `npx skills add Geek96/textbook-cracking`.
+- **PlanVault** — the daily-planning tool this skill's staging file
+  (`_exports/planvault-time-sensitive.md`) is meant to feed. Not part of
+  this repo or the canvas-manager/textbook-cracking family; install it per
+  its own instructions if the user wants that file actually consumed by a
+  planner rather than just sitting there. Stays optional — course-manager
+  produces the file either way.
 
 ## Every run
 

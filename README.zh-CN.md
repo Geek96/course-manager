@@ -49,7 +49,13 @@
 
 ## 📦 安装
 
-这是一个 Claude Code 插件/skill，是 canvas-manager 的配套工具——需要至少有一门课已经被那个 skill 同步过（完整版或 Lite 都行）。
+这是一个 Claude Code 插件/skill，是 canvas-manager 的配套工具——需要至少有一门课已经被那个 skill 同步过（完整版或 Lite 都行）。如果还没装，先装那个：
+
+```bash
+npx skills add Geek96/canvas-manager
+```
+
+然后再装这个 skill：
 
 ```bash
 npx skills add Geek96/course-manager
@@ -60,6 +66,14 @@ npx skills add Geek96/course-manager
 ```bash
 git clone https://github.com/Geek96/course-manager.git
 ```
+
+可选项，随时装、装哪个都行——对 course-manager 核心的截止日期视图来说都不是必需的：
+
+```bash
+npx skills add Geek96/textbook-cracking   # 感知教材的复习计划 + 可选的练习内容
+```
+
+PlanVault（消费本 skill 暂存文件的每日规划工具）不属于这个仓库家族——如果想让这份交接文件真的被规划工具消费掉，而不是只是静静躺在 `_exports/` 里，按它自己的说明另外安装。
 
 ### 其他 Agent
 

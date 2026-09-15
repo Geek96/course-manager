@@ -82,7 +82,13 @@ build a replacement component.
 
 This is a Claude Code plugin/skill, and a companion to canvas-manager — it
 needs at least one course already synced by that skill (or by Lite; either
-works).
+works). If you haven't installed that yet, get it first:
+
+```bash
+npx skills add Geek96/canvas-manager
+```
+
+Then install this skill:
 
 ```bash
 npx skills add Geek96/course-manager
@@ -93,6 +99,17 @@ or clone directly:
 ```bash
 git clone https://github.com/Geek96/course-manager.git
 ```
+
+Optional, install either (or both) any time — neither is required for
+course-manager's core deadline-aware views:
+
+```bash
+npx skills add Geek96/textbook-cracking   # textbook-aware review plans + optional practice content
+```
+
+PlanVault (the daily-planning tool this skill's staging file feeds) isn't
+part of this repo family — install it per its own instructions if you want
+that hand-off actually consumed, not just written to `_exports/`.
 
 ### Other Agents
 
