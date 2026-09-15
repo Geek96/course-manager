@@ -14,28 +14,37 @@ without it; only use what's actually there.
         ├── MOC.md
         ├── 章节摘要/
         ├── 概念/
-        └── <model-specific folders — 证明/, 案例/, 文献/>
+        └── <model-specific folders — 证明/, 案例/, 文献/, 周次/>
 ```
 
 Read-only, same as canvas-manager's folders — CourseManager never writes
 here.
 
-## What v1 actually does with it
+## What this skill does with it
 
-`课程复习计划.md` (see `obsidian-rules.md`) links to real chapter coverage
-from `wiki/textbook_breakdown/章节摘要/` and `wiki/textbook_breakdown/MOC.md`
-when building a review plan, instead of inventing a schedule — the same
-"never fabricate structure" discipline as everything else this skill does.
+- `课程复习计划.md` (see `obsidian-rules.md`) links to real chapter
+  coverage from `wiki/textbook_breakdown/章节摘要/` and
+  `wiki/textbook_breakdown/MOC.md` when building a review plan, instead of
+  inventing a schedule — the same "never fabricate structure" discipline
+  as everything else this skill does.
+- **Practice-content generation** (as of v0.2.0, ported from
+  textbook-cracking's own v0.1.0) — `练习题/` (math, per-chapter) and
+  `选择题练习/`+`选择题答案/`+`编程练习/` (CS, per-week, requires
+  `周次/` to already cover that week) — see `practice-content.md` for the
+  full rule set. Reads `章节摘要/`, `证明/`, `概念/`, `案例/`, and `周次/`
+  read-only to ground it; writes only into `wiki/综合/`, never into
+  `wiki/textbook_breakdown/`.
 
-## Not yet built (roadmap, not v1)
+## Not yet built (roadmap)
 
 textbook-cracking's own `course-manager-integration.md` describes a fuller
-integration: detecting a Canvas assignment's exercise reference (e.g.
-"§5.2 Exercises 2aceg") and connecting it to the matching
-textbook-cracking chapter/section range, publishing the result under
-`wiki/综合/`. **This isn't implemented in v1.** Report the gap if a user
-asks for it rather than improvising a partial version — this needs real
-design (how exercise ranges get detected and matched reliably) before it's
-a real feature, the same way textbook-cracking itself treats its
-not-yet-built "narrative reading" content model as a deliberate future
-step rather than something to stretch an existing model to cover.
+integration beyond practice-content generation: detecting a Canvas
+assignment's exercise reference (e.g. "§5.2 Exercises 2aceg") and
+connecting it to the matching textbook-cracking chapter/section range,
+publishing the result under `wiki/综合/`. **This isn't implemented yet.**
+Report the gap if a user asks for it rather than improvising a partial
+version — this needs real design (how exercise ranges get detected and
+matched reliably) before it's a real feature, the same way textbook-cracking
+itself treats its not-yet-built "narrative reading" content model as a
+deliberate future step rather than something to stretch an existing model
+to cover.

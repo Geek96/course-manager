@@ -1,6 +1,6 @@
 ---
 name: course-manager
-description: Use when a student wants a deadline-aware view across a course or semester already synced by canvas-manager — an assignment overview, an announcement timeline, every time-sensitive item (structured due/exam dates and dates only ever mentioned in an announcement/page's prose), a review plan, or a hand-off file for a daily-planning tool like PlanVault. Read-only consumer of canvas-manager's (and optionally textbook-cracking's) output — never syncs Canvas itself, never writes into their folders.
+description: Use when a student wants a deadline-aware view across a course or semester already synced by canvas-manager — an assignment overview, an announcement timeline, every time-sensitive item (structured due/exam dates and dates only ever mentioned in an announcement/page's prose), a review plan, a hand-off file for a daily-planning tool like PlanVault, or (when textbook-cracking has processed the course's textbook) Agent-original practice problems / week-scoped quizzes. Read-only consumer of canvas-manager's (and optionally textbook-cracking's) output — never syncs Canvas itself, never writes into their folders.
 ---
 
 # CourseManager
@@ -27,8 +27,9 @@ It never syncs Canvas, never downloads or reads a textbook PDF, and never
 does calendars, reminders, or daily planning itself — those are
 canvas-manager's, textbook-cracking's, and PlanVault's jobs respectively.
 What it does: read canvas-manager's (and optionally textbook-cracking's)
-already-synced output, and build the deadline-aware views neither of those
-two skills produces.
+already-synced output, and build the deadline-aware views (plus, on
+request, Agent-original practice content) neither of those two skills
+produces.
 
 ## Prerequisites
 
@@ -49,16 +50,31 @@ first rather than trying to work around missing evidence.
 3. If the course has `wiki/textbook_breakdown/` (from textbook-cracking),
    read `references/textbook-cracking-integration.md` for what to use it
    for and what's still out of scope.
-4. Build/update the four per-course notes and the semester-level rollup
+4. If the user explicitly asked for practice problems or week practice
+   (not part of a regular run — see "Practice content generation" below),
+   read `references/practice-content.md`.
+5. Build/update the four per-course notes and the semester-level rollup
    per `references/obsidian-rules.md`, using `templates/synthesis-template.md`
    and `templates/学期关注-template.md`. Respect the `courseManager:`
    agent-managed-region marker discipline — never overwrite a student's
    own writing in the same file.
-5. Regenerate `{Root}/{Semester}/_exports/planvault-time-sensitive.md` via
+6. Regenerate `{Root}/{Semester}/_exports/planvault-time-sensitive.md` via
    `scripts/merge_time_sensitive.py` — it merges newly-found candidates
    into the existing file by `id`, preserving every row's `status` column.
    Never hand-edit that file directly; always go through the script so a
    `status` a planning tool already set can't get silently reset.
+
+## Practice content generation (optional, on request only)
+
+Not part of any regular run. Only when the user explicitly asks for
+practice problems (math, per-chapter) or week practice (CS, per-week,
+requires the relevant `周次/` Week page(s) to already exist), read
+`references/practice-content.md` and build the requested pages under
+`wiki/综合/` using `templates/练习题-template.md` or
+`templates/选择题练习-template.md`/`templates/选择题答案-template.md`/
+`templates/编程练习-template.md`. Requires `wiki/textbook_breakdown/` to
+exist for that course (textbook-cracking) — nothing to ground the
+generation against otherwise.
 
 ## Hand-off to planning tools
 

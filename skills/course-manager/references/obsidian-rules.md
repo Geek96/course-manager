@@ -15,7 +15,11 @@ written here. See `canvas-manager-integration.md` and
         ├── 作业总览.md
         ├── 公告时间线.md
         ├── 考试与截止日期.md
-        └── 课程复习计划.md
+        ├── 课程复习计划.md
+        ├── 练习题/            # optional, on request only — see practice-content.md
+        ├── 选择题练习/         # optional, on request only, CS + week-scoped
+        ├── 选择题答案/         # optional, on request only, CS + week-scoped
+        └── 编程练习/           # optional, on request only, CS + week-scoped
 
 {Semester}/
 └── 综合/
@@ -45,6 +49,19 @@ written here. See `canvas-manager-integration.md` and
 Use `templates/synthesis-template.md` for all four — it's already generic
 across this shape via its `{{...}}` guidance block, not one template per
 note type.
+
+## Practice content (optional, on request only)
+
+`练习题/` (math, per-chapter) and `选择题练习/`+`选择题答案/`+`编程练习/`
+(CS, per-week) — Agent-original practice problems and week-scoped
+quizzes, never part of a regular run, only built when the user explicitly
+asks. See `practice-content.md` for the full rule set (calibration, scope
+grounding against a course's actual syllabus, bilingual/MCQ/coding-practice
+format) and their own templates
+(`templates/练习题-template.md`, `templates/选择题练习-template.md`,
+`templates/选择题答案-template.md`, `templates/编程练习-template.md`).
+Requires `wiki/textbook_breakdown/` to exist (textbook-cracking) — nothing
+to generate without it.
 
 ## The semester-level note
 

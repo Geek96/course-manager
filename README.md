@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/AI_Agent-Skill-7C3AED?style=for-the-badge" alt="AI Agent Skill"/>
-  <img src="https://img.shields.io/badge/version-0.1.0-10B981?style=for-the-badge" alt="Version 0.1.0"/>
+  <img src="https://img.shields.io/badge/version-0.2.0-10B981?style=for-the-badge" alt="Version 0.2.0"/>
   <img src="https://img.shields.io/github/license/Geek96/course-manager?style=for-the-badge&color=6B7280" alt="MIT License"/>
 </p>
 
@@ -44,6 +44,11 @@
   [textbook-cracking](https://github.com/Geek96/textbook-cracking) has
   processed a course's textbook, review plans link real chapter coverage
   instead of guessing a schedule
+- **Agent-original practice content (optional, on request)** — per-chapter
+  practice problems (math) and per-week MCQ/coding practice (CS), scope-
+  grounded against the course's actual syllabus, never the textbook's or a
+  professor's own exercises reworded — ported from textbook-cracking,
+  since it's inherently course-scoped work
 - **Never writes into its sources** — reads canvas-manager's `raw/` and
   `wiki/course_content/`/`wiki/info/`, and textbook-cracking's
   `wiki/textbook_breakdown/`, but only ever writes `wiki/综合/`
@@ -125,6 +130,8 @@ build from yet" note when it isn't.
 | `wiki/综合/公告时间线.md` | per course | canvas-manager's announcement evidence |
 | `wiki/综合/考试与截止日期.md` | per course | structured due/exam + prose-extracted dates |
 | `wiki/综合/课程复习计划.md` | per course | course-stated structure, plus textbook-cracking chapter coverage when available |
+| `wiki/综合/练习题/` | per course, per chapter, optional | textbook-cracking's `章节摘要/`+`证明/`, scope-grounded against the course syllabus |
+| `wiki/综合/选择题练习/`+`选择题答案/`+`编程练习/` | per course, per week, optional | textbook-cracking's `周次/` |
 | `{Semester}/综合/学期关注.md` | semester | every tracked course's `考试与截止日期.md` |
 | `_exports/planvault-time-sensitive.md` | semester | same time-sensitive extraction, staged for PlanVault |
 
@@ -137,6 +144,8 @@ build from yet" note when it isn't.
 > What's due across everything this week?
 > Update my time-sensitive staging file for PlanVault
 > Does MATH-4317-A have any dates only mentioned in an announcement, not the syllabus?
+> Generate practice problems for chapter 3, scoped to what MATH-4317-A actually assigned
+> Build week-3 practice for CS-1331 — MCQs plus a few LeetCode links
 ```
 
 ---
@@ -149,13 +158,18 @@ course-manager/
 │   ├── SKILL.md                              # skill entrypoint
 │   ├── references/
 │   │   ├── time-sensitive.md                 # extraction discipline, confidence tiers, staging-file schema
+│   │   ├── practice-content.md               # optional practice-problem/week-practice rules
 │   │   ├── obsidian-rules.md                 # wiki/综合/ layout, marker discipline
 │   │   ├── canvas-manager-integration.md     # read-only source contract
 │   │   ├── textbook-cracking-integration.md  # optional source contract
 │   │   └── obsidian-core.md                  # portable Obsidian authoring baseline
 │   ├── templates/
 │   │   ├── synthesis-template.md             # shared by all 4 per-course notes
-│   │   └── 学期关注-template.md
+│   │   ├── 学期关注-template.md
+│   │   ├── 练习题-template.md                 # optional, math
+│   │   ├── 选择题练习-template.md              # optional, CS
+│   │   ├── 选择题答案-template.md              # optional, CS
+│   │   └── 编程练习-template.md               # optional, CS
 │   └── scripts/merge_time_sensitive.py       # status-preserving merge, stdlib only
 ├── tests/test_merge_time_sensitive.py
 ├── .claude-plugin/plugin.json
