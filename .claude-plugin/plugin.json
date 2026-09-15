@@ -1,0 +1,14 @@
+{
+  "name": "course-manager",
+  "version": "0.1.0",
+  "description": "Deadline-aware synthesis across a course's Canvas evidence and (optionally) its textbook coverage — assignment overview, announcement timeline, every time-sensitive item (structured due/exam dates and dates only ever mentioned in prose), and a review plan — plus a structured hand-off to daily-planning tools. Reads canvas-manager and textbook-cracking output; writes only wiki/综合/.",
+  "author": {
+    "name": "Geek96",
+    "url": "https://github.com/Geek96"
+  },
+  "license": "MIT",
+  "keywords": ["canvas", "lms", "obsidian", "students", "planning", "deadlines"],
+  "skills": [
+    "./skills/course-manager"
+  ]
+}
