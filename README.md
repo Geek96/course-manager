@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/AI_Agent-Skill-7C3AED?style=for-the-badge" alt="AI Agent Skill"/>
-  <img src="https://img.shields.io/badge/version-0.2.0-10B981?style=for-the-badge" alt="Version 0.2.0"/>
+  <img src="https://img.shields.io/badge/version-0.3.0-10B981?style=for-the-badge" alt="Version 0.3.0"/>
   <img src="https://img.shields.io/github/license/Geek96/course-manager?style=for-the-badge&color=6B7280" alt="MIT License"/>
 </p>
 
@@ -9,14 +9,34 @@
 <p align="center">
   <strong>Deadline-aware synthesis across a course's Canvas evidence and (optionally) its textbook coverage</strong>
   <br/>
-  <code>canvas-manager + textbook-cracking → wiki/综合/ → PlanVault</code>
+  <code>Evidence Driver + Content Driver → wiki/综合/ → Planning Sink</code>
   <br/><br/>
-  Read-only consumer, no Canvas access of its own
+  The core of <strong>CourseOS</strong> — see <a href="FRAMEWORK.md">FRAMEWORK.md</a>
 </p>
 
 <p align="center">
   <strong>English</strong>
 </p>
+
+---
+
+## 🧱 CourseOS
+
+This repo is CourseOS's **core** — the piece that owns the interface
+contracts and produces the thing a student actually reads. Everything it
+depends on is a swappable **component**, not a fixed tool:
+
+| Role | Required? | Current implementation(s) |
+|------|-----------|---------------------------|
+| Evidence Driver | Yes — nothing works without one | [canvas-manager](https://github.com/Geek96/canvas-manager) / canvas-manager-lite |
+| Content Driver | Optional | [textbook-cracking](https://github.com/Geek96/textbook-cracking) |
+| Planning Sink | Optional | PlanVault |
+
+Any tool that produces/consumes a role's documented contract is a drop-in
+replacement for whatever currently fills it — course-manager depends on
+the contract, never on a specific tool by name. See
+[FRAMEWORK.md](FRAMEWORK.md) for the full role definitions and how to
+build a replacement component.
 
 ---
 
@@ -154,6 +174,7 @@ build from yet" note when it isn't.
 
 ```text
 course-manager/
+├── FRAMEWORK.md                                # CourseOS role/contract definitions
 ├── skills/course-manager/
 │   ├── SKILL.md                              # skill entrypoint
 │   ├── references/

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0
+
+Added `FRAMEWORK.md`: names this ecosystem **CourseOS** and formalizes
+course-manager as its core, with canvas-manager/canvas-manager-lite
+(Evidence Driver), textbook-cracking (Content Driver), and PlanVault
+(Planning Sink) as swappable components around it, each defined by an
+input/output contract rather than a specific tool. Documentation-level
+only in this release — no manifest file or compatibility checker yet; see
+FRAMEWORK.md's "What this isn't (yet)" for the deliberate v1 scope. No
+behavior change to any existing script or template.
+
 ## 0.2.0
 
 Added optional Agent-original practice-content generation, ported from
