@@ -1,5 +1,5 @@
 ---
-rules-version: 1
+rules-version: 2
 ---
 # CourseOS 规则（在本学期目录工作的所有 agent 必读）
 
@@ -11,19 +11,36 @@ rules-version: 1
 - `courseos.json`：课程档案和功能开关，由 CourseCenter 维护。
 
 ## 做任何课程任务之前
-1. 读 courseos.json：这门课 enabled 才处理；相关功能开关
-   （practice / bridge / lecture-scripts）关着的事不要做。
-2. 找到负责这件事的 skill，严格按它的 SKILL.md 执行：
+1. 读 .courseos/STATE.md（由 CourseCenter 根据 courseos.json 生成，开关以它为准）：
+   这门课“追踪”为是才处理；停用的组件不要运行；每周练习题为“开”的课，
+   course-manager 整理时为新的一周出练习题。
+2. 读 .courseos/journal.md 最近几段，了解之前的会话做了什么、留下了什么。
+3. 找到负责这件事的 skill，严格按它的 SKILL.md 执行：
    同步 Canvas → canvas-manager；汇总作业、时间线、待办 → course-manager；
    拆教材 → textbook-cracking。位置见下方“已安装的 skill”。
 
+## 同步 Canvas
+- 一次只同步一门课，不要并行。canvas-manager-lite 的浏览器会话名用 cm-{课号小写}
+  （例如 cm-cs-1331），同步完关闭该会话。
+
 ## 写入纪律
-- 只写该 skill 契约允许写的目录。
+- 只写该 skill 契约允许写的目录。另外可以写：.courseos/profiles/（课程档案，
+  course-manager 提取）、.courseos/journal.md（只追加）。
 - 不删除、不移动、不重命名任何已有文件（vault 和 .data 都是）。
-- 不改 courseos.json；不改 _exports 待办表的 status 列（那是用户勾选的）。
+- 不改 courseos.json 和 .courseos/STATE.md；不改 _exports 待办表的 status 列（那是用户勾选的）。
 - submissions/ 是用户自己的作业，只读。
 - 安装软件、改系统设置之前，先征得用户同意。
 - 拿不准就问用户，不要猜路径；路径以本文件和 courseos.json 为准。
+
+## 工作日志格式
+每做完一件事，在 .courseos/journal.md 末尾追加一段（只追加，不改旧内容）：
+
+```
+## 2026-10-09 10:32 · {你的 agent 名} · {做了什么，如“同步并整理”}
+- 完成：…
+- 失败：…（原因）
+- 待办：…
+```
 
 ## 已安装的 skill（配置时填写）
 - course-manager：{路径}
