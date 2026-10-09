@@ -126,6 +126,43 @@ for CourseOS data shapes. CourseCenter's GUI already owns the
 "看板 + 勾选" half (writing `status`); the planner owns "排进日程".
 Contract TBD.
 
+## File classification
+
+CourseCenter's course "文件" page (and any agent that needs to find course
+material) classifies every file on two independent axes. course-manager
+and other skills don't have to do anything for this to work — the rules
+below are derived from where they already write and the `type:` they
+already set.
+
+Precedence: manual override in front matter > front-matter `type:` >
+folder location and file name.
+
+| `type:` or location | Topic (第一层) | Origin (第二层) |
+|---|---|---|
+| course-info, file-index, course-dashboard, semester-dashboard | 课程信息 | Agent 提取整理 |
+| synthesis, planvault-export | 考试与作业 | Agent 提取整理 |
+| exam-review, practice-problems, mcq-practice, mcq-answers, coding-practice | 考试与作业 | Agent 原创 |
+| proof, concept, source-summary, chapter-summary, case-study, document-entry, week, event, person, moc, textbook-breakdown-index, image-gallery | 笔记与书本知识 | Agent 提取整理 |
+| any other file under `wiki/` | 笔记与书本知识 | Agent 提取整理 |
+| `readings/` | by file name: hw/homework/exam/quiz/midterm/final/lab/project/solution/assignment → 考试与作业; syllabus/大纲/schedule/calendar → 课程信息; else 笔记与书本知识 | 课程原文件 |
+| `textbooks/` | 笔记与书本知识 | 课程原文件 |
+| `submissions/`, and any non-standard folder or file in the course directory | by file name (same as `readings/`) | 我的 |
+| Code surface | 考试与作业 | 我的 |
+| Machine surface (`raw/`) | by folder: `assignments`/`quizzes`/`submissions` → 考试与作业; `syllabus` → 课程信息; else 笔记与书本知识 | 课程原文件 |
+| Not shown | `wiki/assets/`, `templates/`, hidden files, build artifacts (`.class`, `.jar`, `.o`, `.pyc`; code `build/`, `out/`, `bin/`, `node_modules/`, `__pycache__/`, `target/`) | — |
+
+Manual override keys (values are Chinese, exactly as above; spaces in the
+origin value are optional; unrecognised values are ignored):
+
+```yaml
+courseos-topic: 考试与作业        # 课程信息 / 考试与作业 / 笔记与书本知识
+courseos-origin: Agent 原创      # 课程原文件 / Agent 提取整理 / Agent 原创 / 我的
+```
+
+A skill that generates a new kind of note should either use one of the
+`type:` values above or set these two keys. Title shown: front-matter
+`title:` > first `# heading` > file name.
+
 ## Building a replacement
 
 1. Pick the role (Evidence Driver / Content Driver / Planning Sink).

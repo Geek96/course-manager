@@ -46,3 +46,13 @@ rules-version: 3
 - course-manager：{路径}
 - canvas-manager：{路径}
 - textbook-cracking：{路径}
+
+## 版本变化
+### 第 3 版
+- 允许 course-manager 写 .courseos/progress/（学期全景，供 CourseCenter 进度页使用）
+### 第 2 版
+- 开关以 .courseos/STATE.md 为准；每次工作后在 .courseos/journal.md 追加日志
+- 同步 Canvas 一次一门课，浏览器会话名 cm-{课号小写}
+- 允许写 .courseos/profiles/（课程档案）
+### 第 1 版
+- 首个版本：四个工作面、写入纪律、已安装的 skill
