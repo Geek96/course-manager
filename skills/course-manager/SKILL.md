@@ -96,7 +96,8 @@ course-manager's core deadline-aware views:
    Never hand-edit that file directly; always go through the script so a
    `status` a planning tool already set can't get silently reset.
 7. If `{Root}/{Semester}/.courseos/` exists, extract the course profile
-   (see "Course profile extraction" below).
+   (see "Course profile extraction" below) and write the semester progress
+   file (see "Semester progress file" below).
 8. If `{Root}/{Semester}/.courseos/` exists, append one entry to
    `.courseos/journal.md` (format in `.courseos/RULES.md`): what was done,
    what failed, what's left. Append only — never edit earlier entries.
@@ -130,6 +131,44 @@ type it:
   the course folder), so the student can check it.
 - Never write `courseos.json` — the student's manual edits live there and
   take precedence over this file in CourseCenter.
+
+## Semester progress file
+
+CourseCenter draws a per-course progress view (one row per series, the
+whole term on the time axis). The staging file only carries what's still
+ahead, so write a separate, whole-semester file:
+
+- Write `{Root}/{Semester}/.courseos/progress/{COURSE-ID}.json` (same
+  `COURSE-ID` rule as the profile), overwriting it each run:
+
+  ```json
+  {
+    "course": "APPH-1040-E",
+    "generatedAt": "2026-10-09",
+    "term": { "start": "2026-08-17", "end": "2026-12-18" },
+    "tracks": [
+      { "name": "Personal Wellness Goal",
+        "items": [
+          { "id": "apph-1040-e-due-pwg-part-2", "title": "Personal Wellness Goal: Part 2",
+            "kind": "due", "when": "2026-09-22 14:00", "submitted": true,
+            "source": "raw/assignments/123/latest.md" } ] } ]
+  }
+  ```
+
+- **Whole term, past included**: assignments, projects, exams, quizzes from
+  canvas-manager's evidence. Readings/announcements can be left out.
+- **Tracks are series, not `event_kind`**: group items that belong to one
+  thread of work (e.g. "Personal Wellness Goal" Part 1/2/3, Midpoint,
+  Final Reflection; "Exam 1" and "Exam 1 Corrections"/"regrade").
+  Recurring small items (weekly participation, homework sets) form one
+  track each ("Class Participation", "HW").
+- **Same `id` as the staging file** for anything that is also a
+  time-sensitive row (build it with the same rule), so a tick in
+  CourseCenter shows up in the progress view.
+- `submitted`: `true`/`false` from `submissions/` or Canvas submission
+  status; `null` when you can't tell. `when` is `YYYY-MM-DD` or
+  `YYYY-MM-DD HH:mm`. `term` comes from the syllabus or Canvas; omit it if
+  unknown.
 
 ## Practice content generation (on request, or weekly when switched on)
 

@@ -1,5 +1,5 @@
 ---
-rules-version: 2
+rules-version: 3
 ---
 # CourseOS 规则（在本学期目录工作的所有 agent 必读）
 
@@ -24,8 +24,8 @@ rules-version: 2
   （例如 cm-cs-1331），同步完关闭该会话。
 
 ## 写入纪律
-- 只写该 skill 契约允许写的目录。另外可以写：.courseos/profiles/（课程档案，
-  course-manager 提取）、.courseos/journal.md（只追加）。
+- 只写该 skill 契约允许写的目录。另外可以写：.courseos/profiles/（课程档案）、
+  .courseos/progress/（学期全景），都由 course-manager 生成；.courseos/journal.md（只追加）。
 - 不删除、不移动、不重命名任何已有文件（vault 和 .data 都是）。
 - 不改 courseos.json 和 .courseos/STATE.md；不改 _exports 待办表的 status 列（那是用户勾选的）。
 - submissions/ 是用户自己的作业，只读。
