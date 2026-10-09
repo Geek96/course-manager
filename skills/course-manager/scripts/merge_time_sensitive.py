@@ -58,14 +58,30 @@ def parse_table(markdown: str) -> list[dict]:
     lines = [ln for ln in markdown.splitlines() if ln.strip().startswith("|")]
     if len(lines) < 3:
         return []
-    header = [c.strip() for c in lines[0].strip("|").split("|")]
+    header = split_row(lines[0])
     rows = []
     for line in lines[2:]:
-        cells = [c.strip() for c in line.strip("|").split("|")]
+        cells = split_row(line)
         if len(cells) != len(header):
             continue
         rows.append(dict(zip(header, cells)))
     return rows
+
+
+def split_row(line: str) -> list[str]:
+    """Split one table row into cell values.
+
+    format_table writes a literal `|` inside a cell as `\\|`, so only
+    unescaped pipes are column separators; escapes are undone afterwards.
+    Splitting on every `|` would shift columns, the row would be dropped,
+    and the next merge would reset that row's status to pending.
+    """
+    inner = line.strip()
+    if inner.startswith("|"):
+        inner = inner[1:]
+    if inner.endswith("|") and not inner.endswith("\\|"):
+        inner = inner[:-1]
+    return [c.strip().replace("\\|", "|") for c in re.split(r"(?<!\\)\|", inner)]
 
 
 def format_table(rows: list[dict]) -> str:

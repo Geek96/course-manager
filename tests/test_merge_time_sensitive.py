@@ -75,6 +75,23 @@ class TestTableParsingAndFormatting(unittest.TestCase):
         self.assertEqual(parsed[0]["id"], "a")
         self.assertEqual(parsed[1]["status"], "imported")
 
+    def test_cells_containing_pipes_round_trip(self):
+        # format_table escapes | as \| ; parse_table must not split on it
+        row = make_row("p2", title="P2 | Part A", raw_excerpt='"due Thu | no late"', status="done")
+        parsed = mts.parse_table(mts.format_table([row]))
+        self.assertEqual(len(parsed), 1)
+        self.assertEqual(parsed[0]["title"], "P2 | Part A")
+        self.assertEqual(parsed[0]["raw_excerpt"], '"due Thu | no late"')
+        self.assertEqual(parsed[0]["status"], "done")
+
+    def test_status_survives_regeneration_for_rows_with_pipes(self):
+        # a consumer ticked the row; the next run re-extracts it — status must not reset to pending
+        existing_md = mts.format_table([make_row("p2", title="P2 | Part A", status="done")])
+        existing = mts.parse_table(existing_md)
+        merged = mts.merge_rows(existing, [make_row("p2", title="P2 | Part A (updated)")])
+        self.assertEqual(len(merged), 1)
+        self.assertEqual(merged[0]["status"], "done")
+
     def test_parse_table_on_missing_table_returns_empty_list(self):
         self.assertEqual(mts.parse_table("# Just a heading\n\nNo table here.\n"), [])
 
