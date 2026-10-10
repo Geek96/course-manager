@@ -1,5 +1,5 @@
 ---
-rules-version: 3
+rules-version: 4
 ---
 # CourseOS 规则（在本学期目录工作的所有 agent 必读）
 
@@ -12,19 +12,26 @@ rules-version: 3
 
 ## 做任何课程任务之前
 1. 读 .courseos/STATE.md（由 CourseCenter 根据 courseos.json 生成，开关以它为准）：
-   这门课“追踪”为是才处理；停用的组件不要运行；每周练习题为“开”的课，
-   course-manager 整理时为新的一周出练习题。
+   这门课“追踪”为是才处理。核心组件 course-manager、canvas-manager 始终可用。
+   插件（教材拆解、每周练习题、LectoAI 课堂实录）：停用的不要运行；写了自定义实现的，
+   用那个 skill，不用默认的；按课开关为“开”的课才做（如每周练习题“开”的课，整理时
+   为新的一周出练习题）。
 2. 读 .courseos/journal.md 最近几段，了解之前的会话做了什么、留下了什么。
 3. 找到负责这件事的 skill，严格按它的 SKILL.md 执行：
    同步 Canvas → canvas-manager；汇总作业、时间线、待办 → course-manager；
-   拆教材 → textbook-cracking。位置见下方“已安装的 skill”。
+   拆教材 → 教材拆解插件（默认 textbook-cracking）。位置见下方“已安装的 skill”。
+
+## LectoAI 课堂实录（插件启用、这门课开着时）
+- 转录稿由 LectoAI 导出到 `{课程目录}/readings/课堂实录/`，是课程原文件：只读，不改不动。
+- 把还没整理的转录稿写成 `wiki/课堂实录/` 下的课堂笔记，属性区 `type: lecture-notes`，
+  注明来源转录稿；已整理过的不重复写。
 
 ## 同步 Canvas
 - 一次只同步一门课，不要并行。canvas-manager-lite 的浏览器会话名用 cm-{课号小写}
   （例如 cm-cs-1331），同步完关闭该会话。
 
 ## 写入纪律
-- 只写该 skill 契约允许写的目录。另外可以写：.courseos/profiles/（课程档案）、
+- 只写该 skill 契约允许写的目录（课堂实录插件开着时包括 wiki/课堂实录/）。另外可以写：.courseos/profiles/（课程档案）、
   .courseos/progress/（学期全景），都由 course-manager 生成；.courseos/journal.md（只追加）。
 - 不删除、不移动、不重命名任何已有文件（vault 和 .data 都是）。
 - 不改 courseos.json 和 .courseos/STATE.md；不改 _exports 待办表的 status 列（那是用户勾选的）。
@@ -48,6 +55,9 @@ rules-version: 3
 - textbook-cracking：{路径}
 
 ## 版本变化
+### 第 4 版
+- 核心组件始终启用；插件（教材拆解、每周练习题、LectoAI 课堂实录）以 STATE.md 为准，可能有自定义实现
+- 新增 LectoAI 课堂实录：读 readings/课堂实录/，写 wiki/课堂实录/（type: lecture-notes）
 ### 第 3 版
 - 允许 course-manager 写 .courseos/progress/（学期全景，供 CourseCenter 进度页使用）
 ### 第 2 版

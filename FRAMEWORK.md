@@ -126,6 +126,33 @@ for CourseOS data shapes. CourseCenter's GUI already owns the
 "看板 + 勾选" half (writing `status`); the planner owns "排进日程".
 Contract TBD.
 
+## Core and plugins
+
+Two components are **core**: course-manager and canvas-manager. They are
+always enabled and not replaceable — CourseCenter's sync, to-do, progress,
+profile, and file pages all depend on them.
+
+The Evidence Driver role below is filled by canvas-manager and is core in
+CourseCenter; its contract still documents the data shape.
+
+Everything else is a **plugin**: optional, can be enabled/disabled per
+semester (`courseos.json` → `plugins.{id}.enabled`), and can be replaced by
+any skill that reads and writes the same paths. Per-course switches live in
+`courses[].features`. CourseCenter writes the effective state — including a
+custom implementation's path — into `.courseos/STATE.md`; agents follow it.
+
+| Plugin | id | Default implementation | Per-course key | Reads | Writes |
+|---|---|---|---|---|---|
+| 教材拆解 | `textbook` | textbook-cracking | — | `textbooks/` | `wiki/textbook_breakdown/` |
+| 每周练习题 | `practice` | course-manager (built in) | `practice` | `wiki/textbook_breakdown/`, `wiki/course_content/` | `wiki/综合/` (`type: practice-problems` etc.) |
+| LectoAI 课堂实录 | `lectoai` | course-manager (built in) | `lectoai` | `readings/课堂实录/` | `wiki/课堂实录/` (`type: lecture-notes`) |
+
+LectoAI contract: LectoAI (or the user) exports lecture transcripts into
+`{Course}/readings/课堂实录/` — course originals, never modified. The
+plugin turns each not-yet-processed transcript into one lecture note under
+`wiki/课堂实录/` with `type: lecture-notes` and a link back to its source
+transcript; re-runs skip transcripts that already have a note.
+
 ## File classification
 
 CourseCenter's course "文件" page (and any agent that needs to find course
@@ -142,7 +169,7 @@ folder location and file name.
 | course-info, file-index, course-dashboard, semester-dashboard | 课程信息 | Agent 提取整理 |
 | synthesis, planvault-export | 考试与作业 | Agent 提取整理 |
 | exam-review, practice-problems, mcq-practice, mcq-answers, coding-practice | 考试与作业 | Agent 原创 |
-| proof, concept, source-summary, chapter-summary, case-study, document-entry, week, event, person, moc, textbook-breakdown-index, image-gallery | 笔记与书本知识 | Agent 提取整理 |
+| proof, concept, source-summary, chapter-summary, case-study, document-entry, week, event, person, moc, textbook-breakdown-index, image-gallery, lecture-notes | 笔记与书本知识 | Agent 提取整理 |
 | any other file under `wiki/` | 笔记与书本知识 | Agent 提取整理 |
 | `readings/` | by file name: hw/homework/exam/quiz/midterm/final/lab/project/solution/assignment → 考试与作业; syllabus/大纲/schedule/calendar → 课程信息; else 笔记与书本知识 | 课程原文件 |
 | `textbooks/` | 笔记与书本知识 | 课程原文件 |
@@ -165,7 +192,9 @@ A skill that generates a new kind of note should either use one of the
 
 ## Building a replacement
 
-1. Pick the role (Evidence Driver / Content Driver / Planning Sink).
+1. Pick a replaceable role: a plugin from the table above, the Content
+   Driver (= the 教材拆解 plugin), or the Planning Sink. Core components
+   (course-manager, canvas-manager) are not replaceable in CourseCenter.
 2. Read that role's linked reference doc in full, not just the summary above.
 3. Produce/consume exactly that shape. Nothing else about the current
    implementation (its name, its internal folders, its own scripts) is
