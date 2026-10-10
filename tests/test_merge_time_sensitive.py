@@ -28,6 +28,25 @@ def make_row(row_id, **overrides):
 
 
 class TestMergeRows(unittest.TestCase):
+    def test_user_priority_is_preserved_and_defaults_empty(self):
+        existing = [make_row("a", user_priority="high", status="ignored")]
+        merged = mts.merge_rows(existing, [make_row("a"), make_row("b")])
+        by_id = {r["id"]: r for r in merged}
+        self.assertEqual(by_id["a"]["user_priority"], "high")
+        self.assertEqual(by_id["a"]["status"], "ignored")
+        self.assertEqual(by_id["b"]["user_priority"], "")
+
+    def test_old_13_column_file_round_trips_with_new_columns(self):
+        old_table = "| " + " | ".join(mts.ROW_FIELDS[:12] + ["status"]) + " |\n|" + "---|" * 13 + "\n" \
+            + "| a | C | T | due | 2026-10-12 | structured |  | assignment |  |  | 2h | high | done |"
+        rows = mts.parse_table(old_table)
+        merged = mts.merge_rows(rows, [make_row("a", category="task", points="10")])
+        table = mts.format_table(merged)
+        back = mts.parse_table(table)
+        self.assertEqual(back[0]["status"], "done")
+        self.assertEqual(back[0]["category"], "task")
+        self.assertEqual(back[0]["user_priority"], "")
+
     def test_new_id_is_staged_as_pending(self):
         merged = mts.merge_rows(existing_rows=[], new_rows=[make_row("a")])
         self.assertEqual(merged[0]["status"], "pending")

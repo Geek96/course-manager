@@ -77,6 +77,10 @@ course-manager's core deadline-aware views:
    (confidence tiers, what counts as time-sensitive, the `event_kind`
    taxonomy) — this governs both `考试与截止日期.md` and the PlanVault
    staging file.
+2b. Read `references/tasks-and-projects.md` for the extra task fields
+   (category, grade weight, submission, submitted/score from
+   `raw/grades/`), the grading-category tracks, and long-term project
+   detection/planning (`.courseos/projects/`).
 3. If the course has `wiki/textbook_breakdown/` (from textbook-cracking),
    read `references/textbook-cracking-integration.md` for what to use it
    for and what's still out of scope.
@@ -92,7 +96,8 @@ course-manager's core deadline-aware views:
    own writing in the same file.
 6. Regenerate `{Root}/{Semester}/_exports/planvault-time-sensitive.md` via
    `scripts/merge_time_sensitive.py` — it merges newly-found candidates
-   into the existing file by `id`, preserving every row's `status` column.
+   into the existing file by `id`, preserving every row's `status` and
+   `user_priority` columns.
    Never hand-edit that file directly; always go through the script so a
    `status` a planning tool already set can't get silently reset.
 7. If `{Root}/{Semester}/.courseos/` exists, extract the course profile
@@ -157,7 +162,10 @@ ahead, so write a separate, whole-semester file:
 
 - **Whole term, past included**: assignments, projects, exams, quizzes from
   canvas-manager's evidence. Readings/announcements can be left out.
-- **Tracks are series, not `event_kind`**: group items that belong to one
+- **Tracks follow the syllabus grading categories** (with `"weight"`) when
+  the syllabus has a breakdown — see `references/tasks-and-projects.md`,
+  which also lists the extra per-item fields. Otherwise **tracks are
+  series, not `event_kind`**: group items that belong to one
   thread of work (e.g. "Personal Wellness Goal" Part 1/2/3, Midpoint,
   Final Reflection; "Exam 1" and "Exam 1 Corrections"/"regrade").
   Recurring small items (weekly participation, homework sets) form one

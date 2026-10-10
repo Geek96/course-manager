@@ -1,9 +1,9 @@
 """Merge helpers for CourseManager's PlanVault time-sensitive staging file.
 
 The one piece of must-be-correct mechanical logic in this skill: a
-consuming planning tool (e.g. PlanVault) owns the `status` column on each
-row, and regenerating the staging file must never silently reset or drop
-what it already set. See references/time-sensitive.md for the full schema
+consuming planning tool (e.g. PlanVault, CourseCenter) owns the `status`
+and `user_priority` columns on each row, and regenerating the staging file
+must never silently reset or drop what it already set. See references/time-sensitive.md for the full schema
 and rule.
 """
 from __future__ import annotations
@@ -16,16 +16,22 @@ from pathlib import Path
 ROW_FIELDS = [
     "id", "course", "title", "event_kind", "when", "confidence",
     "raw_excerpt", "source_type", "source_url", "source_snapshot",
-    "estimated_workload", "priority_hint", "status",
+    "estimated_workload", "priority_hint",
+    "category", "points", "grade_weight", "submission", "submitted", "score", "project",
+    "status", "user_priority",
 ]
+
+# Columns the consumer (user) owns: kept by id across regenerations.
+CONSUMER_FIELDS = ("status", "user_priority")
+CONSUMER_DEFAULTS = {"status": "pending", "user_priority": ""}
 
 
 def merge_rows(existing_rows: list[dict], new_rows: list[dict]) -> list[dict]:
     """Merge this run's candidate rows into the existing staging-file rows.
 
-    - A row whose `id` already existed keeps its existing `status`,
-      regardless of whether other fields (e.g. `when`) changed.
-    - A row with a new `id` gets `status: "pending"`.
+    - A row whose `id` already existed keeps its existing `status` and
+      `user_priority`, regardless of whether other fields (e.g. `when`) changed.
+    - A row with a new `id` gets `status: "pending"` and an empty `user_priority`.
     - An existing row whose `id` is absent from this run's candidates is
       preserved as-is, never silently dropped (mirrors canvas-manager's
       manifest.py: missing from this run means "not seen again," not
@@ -39,7 +45,9 @@ def merge_rows(existing_rows: list[dict], new_rows: list[dict]) -> list[dict]:
         rid = new_row["id"]
         seen_ids.add(rid)
         merged_row = dict(new_row)
-        merged_row["status"] = existing_by_id[rid]["status"] if rid in existing_by_id else "pending"
+        for field in CONSUMER_FIELDS:
+            old = existing_by_id.get(rid)
+            merged_row[field] = old.get(field, CONSUMER_DEFAULTS[field]) if old else CONSUMER_DEFAULTS[field]
         merged.append(merged_row)
 
     for rid, row in existing_by_id.items():
@@ -118,7 +126,7 @@ def main() -> None:
     parser.add_argument("--staging-file", required=True, type=Path)
     parser.add_argument(
         "--input", required=True, type=Path,
-        help="JSON file: list of this run's candidate row objects (no status field needed; new rows are staged as pending).",
+        help="JSON file: list of this run's candidate row objects (no status/user_priority needed; new rows are staged as pending).",
     )
     args = parser.parse_args()
 

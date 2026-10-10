@@ -1,5 +1,5 @@
 ---
-rules-version: 4
+rules-version: 5
 ---
 # CourseOS 规则（在本学期目录工作的所有 agent 必读）
 
@@ -30,8 +30,15 @@ rules-version: 4
 - 一次只同步一门课，不要并行。canvas-manager-lite 的浏览器会话名用 cm-{课号小写}
   （例如 cm-cs-1331），同步完关闭该会话。
 
+## 待办与长期项目
+- 待办表的 `status`、`user_priority` 两列是用户的（CourseCenter 写），只能经 merge_time_sensitive.py 按 id 保留，不要改。
+- 长期项目：发现疑似的写 .courseos/projects/{id}.json（state: candidate）并在会话里问用户是否追踪；
+  追踪中的按 course-manager 的 references/tasks-and-projects.md 拆子任务，并写 wiki/综合/长期项目/ 下的只读计划。
+  重写项目文件时保留用户的决定：state（tracked/declined）、子任务完成状态、用户设的日期、用户加的子任务。
+
 ## 写入纪律
-- 只写该 skill 契约允许写的目录（课堂实录插件开着时包括 wiki/课堂实录/）。另外可以写：.courseos/profiles/（课程档案）、
+- 只写该 skill 契约允许写的目录（课堂实录插件开着时包括 wiki/课堂实录/）。另外可以写：
+  .courseos/projects/（长期项目）、.courseos/profiles/（课程档案）、
   .courseos/progress/（学期全景），都由 course-manager 生成；.courseos/journal.md（只追加）。
 - 不删除、不移动、不重命名任何已有文件（vault 和 .data 都是）。
 - 不改 courseos.json 和 .courseos/STATE.md；不改 _exports 待办表的 status 列（那是用户勾选的）。
@@ -55,6 +62,9 @@ rules-version: 4
 - textbook-cracking：{路径}
 
 ## 版本变化
+### 第 5 版
+- 待办表新增分类、占成绩比例、提交方式、已提交 / 得分等列；status、user_priority 归用户
+- 长期项目：发现后询问、拆子任务、写 .courseos/projects/ 与 wiki/综合/长期项目/
 ### 第 4 版
 - 核心组件始终启用；插件（教材拆解、每周练习题、LectoAI 课堂实录）以 STATE.md 为准，可能有自定义实现
 - 新增 LectoAI 课堂实录：读 readings/课堂实录/，写 wiki/课堂实录/（type: lecture-notes）

@@ -153,6 +153,18 @@ plugin turns each not-yet-processed transcript into one lecture note under
 `wiki/课堂实录/` with `type: lecture-notes` and a link back to its source
 transcript; re-runs skip transcripts that already have a note.
 
+## Tasks, priority, and long-term projects
+
+course-manager annotates every time-sensitive row with `category`
+(task / notice / optional), `points`, `grade_weight`, `submission`,
+`submitted`, `score`, and `project`; the progress file is the whole-term
+ledger with the same fields and grading-category tracks. CourseCenter
+computes priority locally (urgency from slack time × importance from
+`grade_weight`) so it stays current offline. Long-term projects live in
+`.courseos/projects/{id}.json` with field-level ownership (the student's
+decisions, completion marks, and dates are kept by the agent). Details:
+`skills/course-manager/references/tasks-and-projects.md`.
+
 ## File classification
 
 CourseCenter's course "文件" page (and any agent that needs to find course
