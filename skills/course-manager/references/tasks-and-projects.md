@@ -1,9 +1,9 @@
 # Task fields, submissions, and long-term projects
 
 Read this on every run that writes the staging file or the progress file.
-CourseCenter uses these fields to split the to-do list into 要交的 /
+CourseOS uses these fields to split the to-do list into 要交的 /
 通知与可选, compute priorities, mark submitted work done, and track
-long-term projects. CourseCenter computes priority itself from the
+long-term projects. CourseOS computes priority itself from the
 inputs below — never write a priority score.
 
 ## Staging file: extra columns
@@ -21,7 +21,7 @@ inputs below — never write a priority score.
 | `score` | e.g. `18/20`, or empty | From `raw/grades/`. |
 | `project` | long-term project id, or empty | When this row is one of a tracked project's own Canvas deliverables. |
 
-`status` and `user_priority` belong to the student (CourseCenter writes
+`status` and `user_priority` belong to the student (CourseOS writes
 them). The script keeps both by `id`; never set them in candidate rows.
 
 ## Submission status: `raw/grades/`
@@ -70,15 +70,15 @@ plus `related`: the course materials this task actually uses.
 - `path` is relative to the course folder and must exist; use `url` for
   web resources. Keep it to what the task really needs (≤ 6 entries),
   each with a short `why`.
-- CourseCenter already links, without your help, the note for the
+- CourseOS already links, without your help, the note for the
   task's own Canvas page and the Canvas files the description links to —
   don't repeat those. Add what needs judgement: the lecture/week the task
   builds on, textbook chapters, earlier assignments it extends, a
   platform page where the work is actually done.
 - Set `"tier": "important"` on a web link that's required (a reading on a
-  news site, a platform page); otherwise CourseCenter classifies links
+  news site, a platform page); otherwise CourseOS classifies links
   itself (platforms / references / school admin pages).
-This file is CourseCenter's whole-term ledger (its 全部任务 page and the
+This file is CourseOS's whole-term ledger (its 全部任务 page and the
 archive read it), so include past items.
 
 **Tracks follow the syllabus grading categories** when the syllabus has a
@@ -104,7 +104,7 @@ For each new candidate, write
 "candidate"` and a one-line `"reason"`, then ask the student in the
 session: "发现疑似长期项目「…」（理由），要长期追踪吗？". Write their answer
 into `state` (`tracked` / `declined`). If they don't answer, leave it as
-`candidate` — CourseCenter shows a card with 追踪 / 不追踪. Never re-ask
+`candidate` — CourseOS shows a card with 追踪 / 不追踪. Never re-ask
 about a `declined` project.
 
 ### Plan (state = tracked)
@@ -130,7 +130,7 @@ put its path in `wikiNote`.
 }
 ```
 
-CourseCenter edits some fields from the student's actions. On every
+CourseOS edits some fields from the student's actions. On every
 rewrite you **must keep**: `state` when it is `tracked` or `declined`;
 every subtask's `done`; any subtask `due` whose `dueSetBy` is `user`; any
 subtask whose `addedBy` is `user`; and any field you don't recognise.

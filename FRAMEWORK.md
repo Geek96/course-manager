@@ -40,7 +40,7 @@ surfaces, each with its own tool and ownership:
 | Notes | Obsidian | `wiki/`, `readings/`, `submissions/`, `textbooks/` |
 | Code | VSCode | `{Semester}.code/{Course}/` — one git repo per course, outside the vault |
 | Machine | scripts / agents | `{Semester}.data/{Course}/raw/` — append-only evidence, outside the vault |
-| Config | CourseCenter | `courseos.json` — course profiles, feature switches |
+| Config | CourseOS | `courseos.json` — course profiles, feature switches |
 
 Rules:
 
@@ -122,23 +122,23 @@ only ever merges by `id` and preserves it). Schema in
 **Planned (v0.4.0 roadmap)**: a CourseOS-native planner skill for this
 role — deterministic scheduling over the staging file plus course
 profiles from `courseos.json`, borrowing PlanVault's ideas but rebuilt
-for CourseOS data shapes. CourseCenter's GUI already owns the
+for CourseOS data shapes. CourseOS's GUI already owns the
 "看板 + 勾选" half (writing `status`); the planner owns "排进日程".
 Contract TBD.
 
 ## Core and plugins
 
 Two components are **core**: course-manager and canvas-manager. They are
-always enabled and not replaceable — CourseCenter's sync, to-do, progress,
+always enabled and not replaceable — CourseOS's sync, to-do, progress,
 profile, and file pages all depend on them.
 
 The Evidence Driver role below is filled by canvas-manager and is core in
-CourseCenter; its contract still documents the data shape.
+CourseOS; its contract still documents the data shape.
 
 Everything else is a **plugin**: optional, can be enabled/disabled per
 semester (`courseos.json` → `plugins.{id}.enabled`), and can be replaced by
 any skill that reads and writes the same paths. Per-course switches live in
-`courses[].features`. CourseCenter writes the effective state — including a
+`courses[].features`. CourseOS writes the effective state — including a
 custom implementation's path — into `.courseos/STATE.md`; agents follow it.
 
 | Plugin | id | Default implementation | Per-course key | Reads | Writes |
@@ -158,7 +158,7 @@ transcript; re-runs skip transcripts that already have a note.
 course-manager annotates every time-sensitive row with `category`
 (task / notice / optional), `points`, `grade_weight`, `submission`,
 `submitted`, `score`, and `project`; the progress file is the whole-term
-ledger with the same fields and grading-category tracks. CourseCenter
+ledger with the same fields and grading-category tracks. CourseOS
 computes priority locally (urgency from slack time × importance from
 `grade_weight`) so it stays current offline. Long-term projects live in
 `.courseos/projects/{id}.json` with field-level ownership (the student's
@@ -167,7 +167,7 @@ decisions, completion marks, and dates are kept by the agent). Details:
 
 ## File classification
 
-CourseCenter's course "文件" page (and any agent that needs to find course
+CourseOS's course "文件" page (and any agent that needs to find course
 material) classifies every file on two independent axes. course-manager
 and other skills don't have to do anything for this to work — the rules
 below are derived from where they already write and the `type:` they
@@ -206,7 +206,7 @@ A skill that generates a new kind of note should either use one of the
 
 1. Pick a replaceable role: a plugin from the table above, the Content
    Driver (= the 教材拆解 plugin), or the Planning Sink. Core components
-   (course-manager, canvas-manager) are not replaceable in CourseCenter.
+   (course-manager, canvas-manager) are not replaceable in CourseOS.
 2. Read that role's linked reference doc in full, not just the summary above.
 3. Produce/consume exactly that shape. Nothing else about the current
    implementation (its name, its internal folders, its own scripts) is

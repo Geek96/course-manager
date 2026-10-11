@@ -8,10 +8,10 @@ rules-version: 6
   每门课 `{课程目录}/` 下只有 wiki/、readings/、submissions/、textbooks/。
 - `../{学期}.data/{课程目录}/raw/`：Canvas 原始数据，只追加，不改写。
 - `../{学期}.code/{课程目录}/`：这门课的代码。
-- `courseos.json`：课程档案和功能开关，由 CourseCenter 维护。
+- `courseos.json`：课程档案和功能开关，由 CourseOS 维护。
 
 ## 做任何课程任务之前
-1. 读 .courseos/STATE.md（由 CourseCenter 根据 courseos.json 生成，开关以它为准）：
+1. 读 .courseos/STATE.md（由 CourseOS 根据 courseos.json 生成，开关以它为准）：
    这门课“追踪”为是才处理。核心组件 course-manager、canvas-manager 始终可用。
    插件（教材拆解、每周练习题、LectoAI 课堂实录）：停用的不要运行；写了自定义实现的，
    用那个 skill，不用默认的；按课开关为“开”的课才做（如每周练习题“开”的课，整理时
@@ -36,7 +36,7 @@ rules-version: 6
 - course-manager 把平台上的作业并入待办，与 Canvas 上的同一件事去重；学期全景条目写上相关资料（related）。
 
 ## 待办与长期项目
-- 待办表的 `status`、`user_priority` 两列是用户的（CourseCenter 写），只能经 merge_time_sensitive.py 按 id 保留，不要改。
+- 待办表的 `status`、`user_priority` 两列是用户的（CourseOS 写），只能经 merge_time_sensitive.py 按 id 保留，不要改。
 - 长期项目：发现疑似的写 .courseos/projects/{id}.json（state: candidate）并在会话里问用户是否追踪；
   追踪中的按 course-manager 的 references/tasks-and-projects.md 拆子任务，并写 wiki/综合/长期项目/ 下的只读计划。
   重写项目文件时保留用户的决定：state（tracked/declined）、子任务完成状态、用户设的日期、用户加的子任务。
@@ -77,7 +77,7 @@ rules-version: 6
 - 核心组件始终启用；插件（教材拆解、每周练习题、LectoAI 课堂实录）以 STATE.md 为准，可能有自定义实现
 - 新增 LectoAI 课堂实录：读 readings/课堂实录/，写 wiki/课堂实录/（type: lecture-notes）
 ### 第 3 版
-- 允许 course-manager 写 .courseos/progress/（学期全景，供 CourseCenter 进度页使用）
+- 允许 course-manager 写 .courseos/progress/（学期全景，供 CourseOS 进度页使用）
 ### 第 2 版
 - 开关以 .courseos/STATE.md 为准；每次工作后在 .courseos/journal.md 追加日志
 - 同步 Canvas 一次一门课，浏览器会话名 cm-{课号小写}

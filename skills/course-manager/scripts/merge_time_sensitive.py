@@ -1,7 +1,7 @@
 """Merge helpers for CourseManager's PlanVault time-sensitive staging file.
 
 The one piece of must-be-correct mechanical logic in this skill: a
-consuming planning tool (e.g. PlanVault, CourseCenter) owns the `status`
+consuming planning tool (e.g. PlanVault, CourseOS) owns the `status`
 and `user_priority` columns on each row, and regenerating the staging file
 must never silently reset or drop what it already set. See references/time-sensitive.md for the full schema
 and rule.
