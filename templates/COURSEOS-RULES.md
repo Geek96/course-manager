@@ -1,5 +1,5 @@
 ---
-rules-version: 5
+rules-version: 6
 ---
 # CourseOS 规则（在本学期目录工作的所有 agent 必读）
 
@@ -29,6 +29,11 @@ rules-version: 5
 ## 同步 Canvas
 - 一次只同步一门课，不要并行。canvas-manager-lite 的浏览器会话名用 cm-{课号小写}
   （例如 cm-cs-1331），同步完关闭该会话。
+
+## 外部平台
+- STATE.md 的“外部平台同步”列出每门课要同步的平台（Gradescope、Perusall、Ed、Piazza 等）。同步 Canvas 时
+  按 canvas-manager-lite 的 references/platform-sync.md 一起同步，只读，不提交、不发帖；没列出的平台不要碰。
+- course-manager 把平台上的作业并入待办，与 Canvas 上的同一件事去重；学期全景条目写上相关资料（related）。
 
 ## 待办与长期项目
 - 待办表的 `status`、`user_priority` 两列是用户的（CourseCenter 写），只能经 merge_time_sensitive.py 按 id 保留，不要改。
@@ -62,6 +67,9 @@ rules-version: 5
 - textbook-cracking：{路径}
 
 ## 版本变化
+### 第 6 版
+- 外部平台同步（Gradescope、Perusall、Ed、Piazza 等）：以 STATE.md 为准，只读
+- 学期全景条目新增相关资料 related（课件、教材章节、平台页面，附理由）
 ### 第 5 版
 - 待办表新增分类、占成绩比例、提交方式、已提交 / 得分等列；status、user_priority 归用户
 - 长期项目：发现后询问、拆子任务、写 .courseos/projects/ 与 wiki/综合/长期项目/

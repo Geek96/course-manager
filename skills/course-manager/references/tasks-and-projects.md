@@ -32,11 +32,52 @@ assignment with its status (已交 / 迟交 / 缺交 / 未交) and score. Match
 lines to rows by assignment title / Canvas id. 已交 and 迟交 → `submitted:
 true`; 缺交 and 未交 past the due date → `false`.
 
+## External platforms: `raw/{platform}/`
+
+canvas-manager-lite saves platform data the student switched on (see its
+`references/platform-sync.md`): `raw/gradescope/`, `raw/perusall/`,
+`raw/ed/`, `raw/piazza/`, and others, as text objects.
+
+- **Assignments / readings** (Gradescope, Perusall, other platforms' tables)
+  become staging rows: `source_type` = the platform id (`gradescope`…),
+  `source_url` = the platform page, `submission: external`, and
+  `submitted` / `score` from the platform's status column.
+- **Deduplicate against Canvas**: if a Canvas assignment is the same piece
+  of work (similar title and the same due date, or a Canvas
+  external-tool assignment pointing at that platform), keep **one** row —
+  the Canvas row's `id` — and take `submitted` / `score` from the
+  platform (it's the source of truth for submissions there). Put the
+  platform link in that row's progress-file `related`.
+- **Staff posts** (Ed, Piazza) are announcements: extract dates from them
+  with the same rules as Canvas announcements (`category: notice` unless
+  they create a deliverable).
+
 ## Progress file: extra fields and tracks
 
 Each item in `.courseos/progress/{COURSE-ID}.json` also carries
 `category`, `points`, `gradeWeight`, `submission`, `submitted`, `score`,
-`sourceURL` (the Canvas link), and `project` — same meanings as above.
+`sourceURL` (the Canvas link), and `project` — same meanings as above —
+plus `related`: the course materials this task actually uses.
+
+```json
+"related": [
+  {"title": "Week 5 slides", "path": "readings/Week5.pdf", "why": "Problems 2–4 use the inheritance examples"},
+  {"title": "Textbook ch. 3", "path": "wiki/textbook_breakdown/章节摘要/Ch3.md", "why": "the assigned chapter"},
+  {"title": "Perusall reading", "url": "https://app.perusall.com/courses/…", "why": "required annotation", "tier": "important"}
+]
+```
+
+- `path` is relative to the course folder and must exist; use `url` for
+  web resources. Keep it to what the task really needs (≤ 6 entries),
+  each with a short `why`.
+- CourseCenter already links, without your help, the note for the
+  task's own Canvas page and the Canvas files the description links to —
+  don't repeat those. Add what needs judgement: the lecture/week the task
+  builds on, textbook chapters, earlier assignments it extends, a
+  platform page where the work is actually done.
+- Set `"tier": "important"` on a web link that's required (a reading on a
+  news site, a platform page); otherwise CourseCenter classifies links
+  itself (platforms / references / school admin pages).
 This file is CourseCenter's whole-term ledger (its 全部任务 page and the
 archive read it), so include past items.
 
