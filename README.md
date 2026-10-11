@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/AI_Agent-Skill-7C3AED?style=for-the-badge" alt="AI Agent Skill"/>
-  <img src="https://img.shields.io/badge/version-0.3.1-10B981?style=for-the-badge" alt="Version 0.3.1"/>
+  <img src="https://img.shields.io/badge/version-0.4.0-10B981?style=for-the-badge" alt="Version 0.4.0"/>
   <img src="https://img.shields.io/github/license/Geek96/course-manager?style=for-the-badge&color=6B7280" alt="MIT License"/>
 </p>
 
@@ -86,9 +86,10 @@ reading only if you're actually building a replacement.
   grounded against the course's actual syllabus, never the textbook's or a
   professor's own exercises reworded — ported from textbook-cracking,
   since it's inherently course-scoped work
-- **Never writes into its sources** — reads canvas-manager's `raw/` and
-  `wiki/course_content/`/`wiki/info/`, and textbook-cracking's
-  `wiki/textbook_breakdown/`, but only ever writes `wiki/综合/`
+- **Never writes into its sources** — reads canvas-manager's vault-outside
+  raw store, `readings/`, and `wiki/course_content/`/`wiki/info/`, and
+  textbook-cracking's `wiki/textbook_breakdown/`, but only ever writes
+  `wiki/综合/`
 - **Agent-managed-region marker discipline** — only ever touches the
   sections of a wiki file it generated; your own handwritten notes in the
   same file are never touched
@@ -162,7 +163,8 @@ build from yet" note when it isn't.
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  canvas-manager           textbook-cracking (optional)       │
-│  raw/, wiki/course_content/, wiki/info/    wiki/textbook_breakdown/  │
+│  .data/raw/, readings/,                    wiki/textbook_breakdown/  │
+│  wiki/course_content/, wiki/info/                                   │
 │           │                          │                        │
 │           └──────────┬───────────────┘                        │
 │                       ▼                                       │
@@ -180,7 +182,7 @@ build from yet" note when it isn't.
 
 | Output | Scope | Built from |
 |--------|-------|-----------|
-| `wiki/综合/作业总览.md` | per course | canvas-manager's assignment evidence |
+| `wiki/综合/作业总览.md` | per course | canvas-manager's assignment evidence + `submissions/` submitted/not-submitted status |
 | `wiki/综合/公告时间线.md` | per course | canvas-manager's announcement evidence |
 | `wiki/综合/考试与截止日期.md` | per course | structured due/exam + prose-extracted dates |
 | `wiki/综合/课程复习计划.md` | per course | course-stated structure, plus textbook-cracking chapter coverage when available |

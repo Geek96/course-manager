@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.4.0
+
+**Breaking** (CourseOS "four work surfaces" reclassification, following
+canvas-manager's Evidence Driver interface v2):
+- Evidence paths moved: reads `{Semester}.data/{Course}/raw/` (was
+  `{Course}/raw/`). `latest_snapshot`/`source_snapshot` values are now
+  relative to the data dir.
+- `wiki/综合/作业总览.md` gains a `提交状态` (已提交/未提交) column read
+  from `{Course}/submissions/` — the student's own work product, one
+  folder per assignment. Read-only; this skill never writes there.
+- `FRAMEWORK.md` documents the four work surfaces (Notes/Code/Machine/
+  Config) and the planned CourseOS-native planner skill for the Planning
+  Sink role.
+
 ## 0.3.1
 
 Rewrote the README (both languages) and trimmed `FRAMEWORK.md`: the

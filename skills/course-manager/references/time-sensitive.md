@@ -12,9 +12,11 @@ a page, a discussion post) with no structured field behind it.
 ### Structured (`confidence: structured`)
 
 Comes straight from canvas-manager's own evidence: an assignment's
-`due_at`/`lock_at` recorded in `raw/_manifest/canvas-objects.json`, or an
-explicitly-dated exam recorded in a course's syllabus (`wiki/info/`). No
-interpretation involved — the source says the date, you copy the date.
+`due_at`/`lock_at` recorded in
+`{Semester}.data/{Course}/raw/_manifest/canvas-objects.json` (v0.4.0: the
+raw store moved outside the vault), or an explicitly-dated exam recorded
+in a course's syllabus (`wiki/info/`). No interpretation involved — the
+source says the date, you copy the date.
 `raw_excerpt` stays empty for these; there's nothing to quote, the field
 *is* the fact.
 
@@ -97,6 +99,9 @@ tags:
 
 Column notes:
 
+- **`source_snapshot`**: paths are relative to `{Semester}.data/{Course}/`
+  (v0.4.0 — the raw store moved outside the vault; was `{Course}/`).
+  Example: `raw/assignments/123/2026-10-07-180000.md`.
 - **`id`**: stable across regenerations so `status` survives. Build it from
   `{course-slug}-{event_kind}-{short-slug-of-title-or-canvas-object-id}` —
   deterministic, not a random hash, so re-running the same sync produces

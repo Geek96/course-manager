@@ -1,11 +1,12 @@
 # Obsidian / Wiki Authoring Rules
 
 This skill only ever writes into `wiki/综合/` inside a course directory, and
-`综合/学期关注.md` at the semester level. Everything else in a course or
-semester directory (`raw/`, `wiki/course_content/`, `wiki/info/`,
-`wiki/textbook_breakdown/`, `课程总览.md`, `学期总览.md`) belongs to
-canvas-manager and, optionally, textbook-cracking — read-only, never
-written here. See `canvas-manager-integration.md` and
+`综合/学期关注.md` at the semester level. Everything else — the
+vault-outside raw store (`{Semester}.data/{Course}/raw/`), `readings/`,
+`submissions/`, `wiki/course_content/`, `wiki/info/`,
+`wiki/textbook_breakdown/`, `课程总览.md`, `学期总览.md` — belongs to
+canvas-manager, textbook-cracking, or the student; read-only, never written
+here. See `canvas-manager-integration.md` and
 `textbook-cracking-integration.md` for the source contracts.
 
 ```text
@@ -29,8 +30,11 @@ written here. See `canvas-manager-integration.md` and
 ## The four per-course notes
 
 - `作业总览.md` — every assignment, due date, status. Source: canvas-manager's
-  `raw/_manifest/canvas-objects.json` assignment entries plus any
-  `wiki/course_content/`/`wiki/info/` note that discusses one.
+  `{Semester}.data/{Course}/raw/_manifest/canvas-objects.json` assignment
+  entries plus any `wiki/course_content/`/`wiki/info/` note that discusses
+  one. A `提交状态` column (`已提交`/`未提交`) comes from
+  `{Course}/submissions/`: a `{assignment-slug}/` folder existing means
+  submitted. Read-only — never write into `submissions/`.
 - `公告时间线.md` — announcements in reverse chronological order, one-line
   summary each, dated.
 - `考试与截止日期.md` — every time-sensitive item, not just formal

@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/AI_Agent-Skill-7C3AED?style=for-the-badge" alt="AI Agent Skill"/>
-  <img src="https://img.shields.io/badge/version-0.3.1-10B981?style=for-the-badge" alt="Version 0.3.1"/>
+  <img src="https://img.shields.io/badge/version-0.4.0-10B981?style=for-the-badge" alt="Version 0.4.0"/>
   <img src="https://img.shields.io/github/license/Geek96/course-manager?style=for-the-badge&color=6B7280" alt="MIT License"/>
 </p>
 
@@ -43,7 +43,7 @@
 - **结构化的 PlanVault 交接，带真正的合并保证** —— 一个规划工具可以读取并据此行动的暂存文件；重新生成它时，绝不会悄悄重置一行人类已经标记过 `imported`/`dismissed` 的记录——这是用经过测试的代码实现的（`scripts/merge_time_sensitive.py`），不是仅靠 agent 自觉遵守
 - **感知教材的复习计划（可选）** —— 当 [textbook-cracking](https://github.com/Geek96/textbook-cracking) 已经处理过某门课的教材时，复习计划会链接真实的章节覆盖情况，而不是瞎猜一个进度表
 - **Agent 原创练习内容（可选，按需生成）** —— 按章节的练习题（数学）和按周的选择题/编程练习（CS），范围锚定在课程实际的教学大纲上，绝不是把教材或教授自己的习题换个说法照搬——这部分是从 textbook-cracking 移植过来的，因为它本质上是课程范围内的工作
-- **绝不写入它的数据源** —— 读取 canvas-manager 的 `raw/` 和 `wiki/course_content/`/`wiki/info/`，以及 textbook-cracking 的 `wiki/textbook_breakdown/`，但只会写入 `wiki/综合/`
+- **绝不写入它的数据源** —— 读取 canvas-manager 的 vault 外 raw 证据库、`readings/` 和 `wiki/course_content/`/`wiki/info/`，以及 textbook-cracking 的 `wiki/textbook_breakdown/`，但只会写入 `wiki/综合/`
 - **Agent 管理区域标记规则** —— 只触碰它自己生成的那部分内容；同一文件里你自己手写的笔记永远不会被碰
 
 ---
@@ -100,7 +100,8 @@ PlanVault（消费本 skill 暂存文件的每日规划工具）不属于这个�
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  canvas-manager           textbook-cracking（可选）           │
-│  raw/, wiki/course_content/, wiki/info/    wiki/textbook_breakdown/  │
+│  .data/raw/、readings/、                   wiki/textbook_breakdown/  │
+│  wiki/course_content/、wiki/info/                                  │
 │           │                          │                        │
 │           └──────────┬───────────────┘                        │
 │                       ▼                                       │
@@ -118,7 +119,7 @@ PlanVault（消费本 skill 暂存文件的每日规划工具）不属于这个�
 
 | 输出 | 范围 | 构建自 |
 |--------|-------|-----------|
-| `wiki/综合/作业总览.md` | 按课程 | canvas-manager 的作业证据 |
+| `wiki/综合/作业总览.md` | 按课程 | canvas-manager 的作业证据 + `submissions/` 的已提交/未提交状态 |
 | `wiki/综合/公告时间线.md` | 按课程 | canvas-manager 的公告证据 |
 | `wiki/综合/考试与截止日期.md` | 按课程 | 结构化截止/考试字段 + 从正文提取的日期 |
 | `wiki/综合/课程复习计划.md` | 按课程 | 课程自身声明的结构，加上 textbook-cracking 的章节覆盖（如果有的话） |
