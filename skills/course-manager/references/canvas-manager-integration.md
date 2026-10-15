@@ -16,6 +16,8 @@ evidence store outside the vault:
 {Semester}.data/{Course}/
 └── raw/
     └── _manifest/canvas-objects.json   # evidence (was {Course}/raw/)
+└── overrides.json                       # optional: student-confirmed corrections,
+                                         # see tasks-and-projects.md
 
 {Course}/
 ├── readings/                            # human-readable copies of teacher uploads

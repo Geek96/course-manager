@@ -32,6 +32,45 @@ assignment with its status (已交 / 迟交 / 缺交 / 未交) and score. Match
 lines to rows by assignment title / Canvas id. 已交 and 迟交 → `submitted:
 true`; 缺交 and 未交 past the due date → `false`.
 
+## Known-bad data: `overrides.json`
+
+Sometimes a source is wrong for one item and the student knows it — e.g.
+an exam taken on paper shows `2/105` and every question "Unanswered" on
+Canvas, while the real grade lives in the instructor's own gradebook.
+Without a place to record that, every run writes the bad number back.
+
+Read `{Semester}.data/{Course}/overrides.json` (optional) before filling
+`submitted` / `score` anywhere (staging rows, progress items,
+`作业总览.md`):
+
+```json
+{
+  "version": 1,
+  "items": [
+    {
+      "source": "raw/assignments/2569048/latest.md",
+      "ignore": ["score"],
+      "set": {"submitted": true, "label": "已提交（纸笔考）"},
+      "note": "Canvas 的 2/105 是占位：学生因电脑跑不了 LockDown Browser 改纸笔考，成绩在老师自己的成绩册",
+      "addedBy": "user",
+      "date": "2026-10-15"
+    }
+  ],
+  "courseNotes": ["考试成绩不同步到 Canvas，以老师邮件为准"]
+}
+```
+
+- Match items by `source` (the snapshot path) or `id` (staging/progress id).
+- `ignore`: fields never taken from Canvas or a platform for that item
+  (`score`, `submitted`, `when`). Leave the field empty instead.
+- `set`: values to use instead (`label` is the text for the `提交状态`
+  column of `作业总览.md`).
+- `courseNotes`: one-line facts about the course's data to repeat in the
+  synthesis notes' 说明 callout.
+- Write this file only when the student tells you a value is wrong (or
+  confirms it when you ask); keep every existing entry. It sits next to
+  `raw/`, not inside it, so it isn't part of the append-only evidence.
+
 ## External platforms: `raw/{platform}/`
 
 canvas-manager-lite saves platform data the student switched on (see its

@@ -21,6 +21,28 @@ explicitly asks for it, separately from a normal synthesis update.
   composing new problems on the same material is in scope, republishing
   the source's own problems is not.
 
+## Weekly scope: lectures vs. the homework due that week
+
+When generating weekly practice (每周练习题 = 开), take the week's scope
+from the course calendar (lectures), then **check the homework due that
+week**: read its problem PDF if one is in `readings/` or
+`raw/{platform}/` (Gradescope handouts — see canvas-manager-lite's
+`platform-sync.md`), and note which sections its problems come from.
+Homework often lags the lectures (e.g. lectures on §5E–6A while the
+homework due the same day covers §3D–3F).
+
+- Same sections → say so in the 范围依据 callout ("与本周作业一致").
+- Different sections → keep the page on the lecture sections, and add a
+  callout naming the homework's sections with a link to the chapter-level
+  practice for them (`textbook_breakdown/练习题/…`). If no chapter-level
+  practice covers those sections, add a short second part of problems for
+  them.
+- Never reuse or closely paraphrase the homework's own problems; if a
+  planned problem turns out to be the same idea as a homework problem,
+  replace it.
+- No calendar and no homework PDF → you may infer the scope, but label it
+  as inferred in the callout and re-check it once the homework appears.
+
 ## Math: `练习题/` (one set per chapter)
 
 Requires `wiki/textbook_breakdown/章节摘要/` and `证明/` to already cover
